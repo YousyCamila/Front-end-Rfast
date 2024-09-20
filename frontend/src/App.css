@@ -1,0 +1,35 @@
+.table {
+  margin-top: 20px; /* Espacio superior para la tabla */
+  width: 100%; /* Ancho completo */
+  border-collapse: collapse; /* Sin espacios entre celdas */
+}
+
+.table th, .table td {
+  padding: 12px; /* Espaciado interno */
+  text-align: left; /* Alineación izquierda */
+}
+
+.table thead {
+  background-color: #007bff; /* Color de fondo del encabezado */
+  color: white; /* Color del texto en el encabezado */
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f2f2f2; /* Color de fondo para filas pares */
+}
+
+.table tbody tr:hover {
+  background-color: #e9ecef; /* Color de fondo al pasar el mouse */
+}
+
+.btn {
+  transition: background-color 0.3s ease; /* Transición suave al cambiar color */
+}
+
+.btn-primary:hover {
+  background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+}
+
+.btn-danger:hover {
+  background-color: #c82333; /* Color más oscuro al pasar el mouse */
+}
