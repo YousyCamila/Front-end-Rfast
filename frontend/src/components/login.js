@@ -1,10 +1,39 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('http://localhost:3000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('token', data.token); // Almacena el token en localStorage
+                alert('Inicio de sesión exitoso');
+                navigate('/home'); // Redirigir a la página principal
+            } else {
+                const errorMessage = await response.text();
+                alert(errorMessage);
+            }
+        } catch (error) {
+            console.error('Error al iniciar sesión:', error);
+        }
+    };
+
     return (
         <div className="d-flex align-items-center justify-content-center vh-100 bg-light">
-            <form style={{ width: '80%', maxWidth: '400px' }}>
+            <form style={{ width: '80%', maxWidth: '400px' }} onSubmit={handleLogin}>
                 <div className="header-text mb-4 text-center">
                     <h2>Login</h2>
                 </div>
@@ -15,7 +44,9 @@ function Login() {
                         className="form-control form-control-lg bg-light fs-6"
                         id="username"
                         placeholder="Usuario"
-                        autoComplete="on"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
                     />
                 </div>
                 <div className="form-group mb-3">
@@ -25,18 +56,21 @@ function Login() {
                         className="form-control form-control-lg bg-light fs-6"
                         id="password"
                         placeholder="Contraseña"
-                        autoComplete="on"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
                     />
                 </div>
-                <Link to='/home'
-                    type="submit"
-                    className="btn btn-primary w-100"
-                >
-                    Iniciar Sesión
-                </Link>
+                <button type="submit" className="btn btn-primary w-100">Iniciar Sesión</button>
                 <div className="row mt-3">
                     <small>
-                        ¿No tiene una cuenta? <Link to="/register">Registrarse</Link>
+                        ¿No tiene una cuenta? 
+                        <button
+                            className="btn btn-link"
+                            onClick={() => navigate('/register')}
+                        >
+                            Registrarse
+                        </button>
                     </small>
                 </div>
             </form>
@@ -45,6 +79,11 @@ function Login() {
 }
 
 export default Login;
+
+
+
+
+
 
 
 // import React, { useState } from 'react';
